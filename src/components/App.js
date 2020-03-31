@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ContactForm from "./contactForm/ContactForm";
 import ContactList from "./contactList/ContactList";
 import Filter from "./filter/Filter";
-import "./App.css";
 
 class App extends Component {
   state = {
@@ -15,14 +14,43 @@ class App extends Component {
     filter: ""
   };
 
+  submitContact = data => {
+    console.log("data", { data });
+    this.setState(prevstate => ({
+      contacts: [...prevstate.contacts, data]
+    }));
+  };
+
+  deleteContact = e => {
+    const id = e.target.id;
+    this.setState(prevstate => ({
+      contacts: prevstate.contacts.filter(contact => contact.id !== id)
+    }));
+  };
+
+  getName = e => {
+    this.setState({
+      filter: e.target.value
+    });
+  };
+
+  filterContacts = () => {
+    return this.state.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
+    );
+  };
+
   render() {
     return (
       <div>
-        <h1>Phonebook</h1>
-        <ContactForm />
+        <h2>Phonebook</h2>
+        <ContactForm submitContact={this.submitContact} />
         <h2>Contacts</h2>
-        <Filter />
-        <ContactList />
+        <Filter getName={this.getName} />
+        <ContactList
+          contacts={this.filterContacts()}
+          deleteContact={this.deleteContact}
+        />
       </div>
     );
   }
