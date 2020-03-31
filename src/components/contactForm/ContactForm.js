@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { v4 as uuidv4 } from "uuid";
+import styles from "./ContactForm.module.css";
 
 class ContactForm extends Component {
   state = {
@@ -30,24 +31,30 @@ class ContactForm extends Component {
     return (
       <>
         <form onSubmit={this.handleSubmit}>
-          <h2>Name</h2>
+          <h2 className={styles.paragraf}>Name</h2>
           <input
             type="text"
             name="name"
             placeholder="Enter Name"
+            maxLength="18"
             onChange={this.handleChange}
             value={this.state.name}
+            className={styles.input}
           />
-          <h2>Number</h2>
+          <h2 className={styles.paragraf}>Number</h2>
           <input
             type="tel"
-            pattern="(\+?\d[- .]*){7,13}"
+            pattern="(\+?\d[- .]*){7,9}"
+            maxLength="9"
             name="number"
             placeholder="Enter Number"
             onChange={this.handleChange}
             value={this.state.number}
+            className={styles.input}
           />
-          <button type="submit">Add contact</button>
+          <button type="submit" className={styles.buttonAdd}>
+            Add contact
+          </button>
         </form>
       </>
     );
